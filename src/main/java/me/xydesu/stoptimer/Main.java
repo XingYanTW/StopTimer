@@ -1,6 +1,7 @@
 package me.xydesu.stoptimer;
 
 import me.xydesu.stoptimer.Manager.Manager;
+import me.xydesu.stoptimer.Manager.MessageManager;
 import me.xydesu.stoptimer.Manager.PlaceholderManager;
 import me.xydesu.stoptimer.Commands.StopServer;
 import org.bukkit.plugin.Plugin;
@@ -11,6 +12,7 @@ public final class Main extends JavaPlugin {
     // implement plugin
     private static Main instance;
     private Manager manager;
+    private MessageManager messageManager;
 
     @Override
     public void onEnable() {
@@ -20,22 +22,24 @@ public final class Main extends JavaPlugin {
 
         instance = this;
 
-        manager = new Manager(this);
-        StopServer stopServerCommand = new StopServer(manager);
+        messageManager = new MessageManager(getConfig());
+        manager = new Manager(this, messageManager);
+        StopServer stopServerCommand = new StopServer(manager, messageManager);
 
         // Register commands
         getCommand("stopserver").setExecutor(stopServerCommand);
         getCommand("stopserver").setTabCompleter(stopServerCommand);
 
         new PlaceholderManager(this, manager).register();
-
-        // configure files
-
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    public MessageManager getMessageManager() {
+        return messageManager;
     }
 
     public static Plugin getInstance() {

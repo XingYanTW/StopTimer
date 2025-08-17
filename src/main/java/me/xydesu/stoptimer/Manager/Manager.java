@@ -14,9 +14,9 @@ public class Manager {
     private long timeLeft = -1;
     private final MessageManager message;
 
-    public Manager(Main plugin) {
+    public Manager(Main plugin, MessageManager messageManager) {
         this.plugin = plugin;
-        this.message = new MessageManager(plugin.getConfig());
+        this.message = messageManager;
     }
 
     public long getTimeLeft() {

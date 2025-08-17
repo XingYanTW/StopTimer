@@ -18,9 +18,9 @@ public class StopServer implements CommandExecutor, TabCompleter {
     private final Manager manager;
     private final MessageManager messages;
 
-    public StopServer(Manager manager) {
+    public StopServer(Manager manager, MessageManager messages) {
         this.manager = manager;
-        this.messages = new MessageManager(Main.getInstance().getConfig());
+        this.messages = messages;
     }
 
     @Override
@@ -33,9 +33,10 @@ public class StopServer implements CommandExecutor, TabCompleter {
 
         // Reload config
         if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
+            sender.sendMessage("DEBUG: Reload block entered");
             Main.getInstance().reloadConfig();
             messages.reload(Main.getInstance().getConfig());
-            sender.sendMessage(messages.getReload());
+            sender.sendMessage(messages.getReload() != null ? messages.getReload() : "Reloaded, but no message found");
             return true;
         }
 

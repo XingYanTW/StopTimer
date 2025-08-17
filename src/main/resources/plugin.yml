@@ -1,7 +1,8 @@
 name: StopTimer
 version: '1.0'
-main: me.xydesu.stoptimer.main
+main: me.xydesu.stoptimer.Main
 api-version: '1.21'
+authors: [xydesu]
 depend: [PlaceholderAPI, DiscordSRV]
 commands:
   stopserver:

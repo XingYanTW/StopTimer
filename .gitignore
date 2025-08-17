@@ -26,3 +26,6 @@ replay_pid*
 # custom
 .idea
 target
+
+.ds_store
+*.iml

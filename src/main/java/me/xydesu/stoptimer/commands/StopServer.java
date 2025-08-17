@@ -1,8 +1,8 @@
 package me.xydesu.stoptimer.commands;
 
-import me.xydesu.stoptimer.Manager;
-import me.xydesu.stoptimer.Message;
-import me.xydesu.stoptimer.main;
+import me.xydesu.stoptimer.Manager.Manager;
+import me.xydesu.stoptimer.Manager.MessageManager;
+import me.xydesu.stoptimer.Main;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,14 +13,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class stopserver implements CommandExecutor, TabCompleter {
+public class StopServer implements CommandExecutor, TabCompleter {
 
     private final Manager manager;
-    private final Message messages;
+    private final MessageManager messages;
 
-    public stopserver(Manager manager) {
+    public StopServer(Manager manager) {
         this.manager = manager;
-        this.messages = new Message(main.getInstance().getConfig());
+        this.messages = new MessageManager(Main.getInstance().getConfig());
     }
 
     @Override
@@ -33,8 +33,8 @@ public class stopserver implements CommandExecutor, TabCompleter {
 
         // Reload config
         if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
-            main.getInstance().reloadConfig();
-            messages.reload(main.getInstance().getConfig());
+            Main.getInstance().reloadConfig();
+            messages.reload(Main.getInstance().getConfig());
             sender.sendMessage(messages.getReload());
             return true;
         }
@@ -86,7 +86,7 @@ public class stopserver implements CommandExecutor, TabCompleter {
 
             // Digit suggestions
             if (input.matches("\\d+")) {
-                String[] units = {"s", "m", "h", "d", "w", "y"};
+                String[] units = {"s", "m", "h"};
                 for (String unit : units) {
                     suggestions.add(input + unit);
                 }

@@ -1,0 +1,23 @@
+messages:
+  command:
+    usage: "&c使用方式: /stopserver <時間> or /stopserver cancel"
+    nopermission: "&c你沒有權限使用這個指令."
+    errorformat: "&c未知的時間格式! 使用：s,m,h."
+    canceled: "&a倒數已取消."
+    cancelfail: "&c沒有正在運行的倒數計時."
+    reload: "&aStopTimer 設定已重新載入!"
+  notify:
+    title: "&c&l重啟通知"
+    subtitle: "&4伺服器將在 &c%time% &4後重啟"
+    message:
+      - "&c&l重啟通知"
+      - "&4伺服器將在 &c%time% &4後重啟"
+    kick: "&c伺服器正在重啟，請稍後再試"
+    cancel:
+      - "&c&l重啟通知"
+      - "&4伺服器重啟已取消"
+  placeholder:
+    message: "&4&l伺服器將在 &c&l%time% &4&l後重啟"
+  discord:
+    message: "## :warning: 伺服器將在 %time% 後重啟"
+    cancel: "## :warning: 伺服器重啟已取消"

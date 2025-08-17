@@ -1,0 +1,9 @@
+name: StopTimer
+version: '1.0'
+main: me.xydesu.stoptimer.main
+api-version: '1.21'
+depend: [PlaceholderAPI, DiscordSRV]
+commands:
+  stopserver:
+    description: Stops the server and displays the time taken to stop.
+    usage: /<command>

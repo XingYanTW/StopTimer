@@ -52,9 +52,9 @@ public class Manager {
 
             @Override
             public void run() {
-                if (timeLeft <= 5 || timeLeft == 60 || timeLeft == 300 || firstRun) {
+                if (timeLeft <= 5 || timeLeft == 10 || timeLeft == 60 || timeLeft == 300 || timeLeft == 1800 || timeLeft == 600 || firstRun) {
                     Bukkit.getOnlinePlayers().forEach(player -> {
-                        if (firstRun) {
+                        if (firstRun || timeLeft == 1800 || timeLeft == 600) {
                             message.getMessage(timeLeft).forEach(player::sendMessage);
                         } else {
                             player.sendTitle(message.getTitle(), message.getSubtitle(timeLeft), 10, 70, 20);
@@ -62,18 +62,20 @@ public class Manager {
                             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
                         }
                     });
-                    try {
-                        DiscordSRV.getPlugin().getMainTextChannel().sendMessage(message.getDiscordMessage(timeLeft)).queue();
-                    } catch (Exception ex) {
-                        plugin.getLogger().warning("無法發送 Discord 訊息：" + ex.getMessage());
+                    if(timeLeft == 10 || timeLeft == 60 || timeLeft == 300 || timeLeft == 1800 || timeLeft == 600 || firstRun) {
+                        try {
+                            DiscordSRV.getPlugin().getMainTextChannel().sendMessage(message.getDiscordMessage(timeLeft)).queue();
+                        } catch (Exception ex) {
+                            plugin.getLogger().warning("無法發送 Discord 訊息：" + ex.getMessage());
+                        }
                     }
                     firstRun = false;
                 }
 
                 if (timeLeft <= 0) {
                     Bukkit.getOnlinePlayers().forEach(player -> player.kickPlayer(message.getKickMessage()));
-                    Bukkit.shutdown();
                     cancel();
+                    Bukkit.shutdown();
                     return;
                 }
 

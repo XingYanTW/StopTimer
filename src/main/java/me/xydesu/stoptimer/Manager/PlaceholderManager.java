@@ -9,12 +9,10 @@ import static me.xydesu.stoptimer.Utils.TimeUtil.formatTime;
 
 public class PlaceholderManager extends PlaceholderExpansion {
 
-    private final Plugin plugin;
     private final Manager manager;
     private final MessageManager message;
 
     public PlaceholderManager(Plugin plugin, Manager manager) {
-        this.plugin = plugin;
         this.manager = manager;
         this.message = new MessageManager(plugin.getConfig());
     }

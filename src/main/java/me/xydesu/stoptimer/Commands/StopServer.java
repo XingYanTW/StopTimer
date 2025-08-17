@@ -1,4 +1,4 @@
-package me.xydesu.stoptimer.commands;
+package me.xydesu.stoptimer.Commands;
 
 import me.xydesu.stoptimer.Manager.Manager;
 import me.xydesu.stoptimer.Manager.MessageManager;

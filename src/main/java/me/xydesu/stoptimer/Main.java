@@ -2,7 +2,7 @@ package me.xydesu.stoptimer;
 
 import me.xydesu.stoptimer.Manager.Manager;
 import me.xydesu.stoptimer.Manager.PlaceholderManager;
-import me.xydesu.stoptimer.commands.StopServer;
+import me.xydesu.stoptimer.Commands.StopServer;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 

@@ -6,8 +6,15 @@ public class TimeUtil {
         long m = (seconds % 3600) / 60;
         long s = seconds % 60;
 
-        if (h > 0) return h + "小時 " + m + "分鐘 " + s + "秒";
-        if (m > 0) return m + "分鐘 " + s + "秒";
+        if (h > 0) {
+            if (m == 0 && s == 0) return h + "小時";
+            if (s == 0) return h + "小時 " + m + "分鐘";
+            return h + "小時 " + m + "分鐘 " + s + "秒";
+        }
+        if (m > 0) {
+            if (s == 0) return m + "分鐘";
+            return m + "分鐘 " + s + "秒";
+        }
         return s + "秒";
     }
 }

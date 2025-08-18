@@ -5,12 +5,14 @@
 ## 功能特色
 
 - 透過 `/stopserver <時間>` 指令啟動自動關機倒數（支援 s/m/h 單位，如 `30s`, `5m`, `1h`）
-- 倒數期間廣播自訂訊息、標題、副標題
+- 倒數期間廣播自訂訊息、標題、副標題與 BossBar 進度條
 - 支援倒數取消 `/stopserver cancel`
 - 支援即時重新載入設定 `/stopserver reload`
 - 支援 DiscordSRV 插件，將倒數通知同步發送至 Discord 頻道
 - 支援 PlaceholderAPI，可在其他插件顯示剩餘倒數時間
 - 允許自訂所有訊息內容
+- BossBar 倒數顯示，可自訂進度條內容
+- 可自定義每個倒數階段的提示（標題、聊天、Discord）
 
 ## 指令說明
 
@@ -35,6 +37,12 @@
 請於 `config.yml` 內的 `messages` 區塊自訂所有顯示文字  
 支援變數 `%time%` 顯示剩餘時間。
 
+## BossBar 支援
+
+- 啟用 BossBar 功能後，倒數期間將顯示進度條
+- 可於 `config.yml` 中調整 BossBar 顯示內容
+- 進度條會根據剩餘時間自動減少
+
 ## PlaceholderAPI 支援
 
 - `%stoptimer_time%`：剩餘倒數時間（如 4分鐘 20秒）
@@ -44,6 +52,7 @@
 ## DiscordSRV 支援
 
 - 啟用 DiscordSRV 後，倒數訊息自動同步到 Discord 頻道
+- 支援倒數通知與取消通知
 
 ## 安裝方式
 
@@ -55,11 +64,14 @@
 ## 常見問題
 
 - 倒數指令無反應？
-  - 請確認權限與指令拼寫正確
-  - 檢查有無安裝相關依賴（如 DiscordSRV, PlaceholderAPI）
+    - 請確認權限與指令拼寫正確
+    - 檢查有無安裝相關依賴（如 DiscordSRV, PlaceholderAPI）
 
 - 如何自訂倒數訊息？
-  - 編輯 `config.yml` 內 messages 區塊，並重新載入 `/stopserver reload`
+    - 編輯 `config.yml` 內 messages 區塊，並重新載入 `/stopserver reload`
+
+- BossBar 沒有顯示？
+    - 請確認 `config.yml` 中 `BossBar` 設為 `true`
 
 ## 授權
 

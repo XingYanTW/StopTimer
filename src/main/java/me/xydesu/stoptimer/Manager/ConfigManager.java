@@ -16,29 +16,29 @@ public class ConfigManager {
         this.config = newConfig;
     }
 
-    //NotifyTime.Title.FirstRun
-    public String getTitleFirstRun() {
-        return config.getString("NotifyTime.Title.FirstRun");
+    // NotifyTime.Title.FirstRun
+    public boolean getTitleFirstRun() {
+        return config.getBoolean("NotifyTime.Title.FistRun");
     }
-    //NotifyTime.Title.Seconds
+    // NotifyTime.Title.Seconds
     public List<Integer> getTitleSeconds() {
         return config.getIntegerList("NotifyTime.Title.Seconds");
     }
 
-    //NotifyTime.Message.FirstRun
-    public String getMessageFirstRun() {
-        return config.getString("NotifyTime.Message.FirstRun");
+    // NotifyTime.Message.FirstRun
+    public boolean getMessageFirstRun() {
+        return config.getBoolean("NotifyTime.Message.FistRun");
     }
-    //NotifyTime.Message.Seconds
+    // NotifyTime.Message.Seconds
     public List<Integer> getMessageSeconds() {
         return config.getIntegerList("NotifyTime.Message.Seconds");
     }
 
-    //NotifyTime.Title.FirstRun
-    public String getDiscordFirstRun() {
-        return config.getString("NotifyTime.Discord.FirstRun");
+    // NotifyTime.Discord.FirstRun
+    public boolean getDiscordFirstRun() {
+        return config.getBoolean("NotifyTime.Discord.FistRun");
     }
-    //NotifyTime.Title.Seconds
+    // NotifyTime.Discord.Seconds
     public List<Integer> getDiscordSeconds() {
         return config.getIntegerList("NotifyTime.Discord.Seconds");
     }

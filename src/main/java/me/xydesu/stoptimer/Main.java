@@ -25,8 +25,8 @@ public final class Main extends JavaPlugin {
         instance = this;
 
         messageManager = new MessageManager(getConfig());
-        manager = new Manager(this, messageManager, configManager);
         configManager = new ConfigManager(getConfig());
+        manager = new Manager(this, messageManager, configManager);
         StopServer stopServerCommand = new StopServer(manager, messageManager, configManager);
 
         // Register commands

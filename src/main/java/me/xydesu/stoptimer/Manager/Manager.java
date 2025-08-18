@@ -12,17 +12,24 @@ public class Manager {
     private final Plugin plugin;
     private BukkitRunnable task;
     private long timeLeft = -1;
+    private long timeMax= -1;
     private final MessageManager message;
+    private BossbarManager bossbarManager;
     private final ConfigManager config;
 
     public Manager(Main plugin, MessageManager messageManager, ConfigManager config) {
         this.plugin = plugin;
         this.message = messageManager;
+        this.bossbarManager = new BossbarManager(plugin, this);
         this.config = config;
     }
 
     public long getTimeLeft() {
         return timeLeft;
+    }
+
+    public long getTimeMax() {
+        return timeMax;
     }
 
     public long parseTime(String input) {
@@ -42,10 +49,12 @@ public class Manager {
     }
 
     public void startCountdown(long seconds) {
+        timeMax = seconds;
         if (timeLeft > 0) {
             // 倒數已在進行
             return;
         }
+        bossbarManager.createBossbar();
 
         timeLeft = seconds;
 
@@ -62,38 +71,46 @@ public class Manager {
 
             @Override
             public void run() {
-                // Title 通知
-                if ((firstRun && titleFirstRun) || titleSeconds.contains((int) timeLeft)) {
-                    Bukkit.getOnlinePlayers().forEach(player -> {
-                        player.sendTitle(message.getTitle(), message.getSubtitle(timeLeft), 10, 70, 20);
-                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-                    });
-                }
-                // Message 通知
-                if ((firstRun && messageFirstRun) || messageSeconds.contains((int) timeLeft)) {
-                    Bukkit.getOnlinePlayers().forEach(player -> {
-                        message.getMessage(timeLeft).forEach(player::sendMessage);
-                    });
-                }
-                // Discord 通知
-                if ((firstRun && discordFirstRun) || discordSeconds.contains((int) timeLeft)) {
-                    try {
-                        DiscordSRV.getPlugin().getMainTextChannel().sendMessage(message.getDiscordMessage(timeLeft)).queue();
-                    } catch (Exception ex) {
-                        plugin.getLogger().warning("無法發送 Discord 訊息：" + ex.getMessage());
+                bossbarManager.updateBossbar();
+                bossbarManager.showBossbar();
+                if (timeLeft <= 5 || timeLeft == 10 || timeLeft == 60 || timeLeft == 300 || timeLeft == 1800 || timeLeft == 600 || firstRun) {
+
+                    // Title 通知
+                    if ((firstRun && titleFirstRun) || titleSeconds.contains((int) timeLeft)) {
+                        Bukkit.getOnlinePlayers().forEach(player -> {
+                            player.sendTitle(message.getTitle(), message.getSubtitle(timeLeft), 10, 70, 20);
+                            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+                        });
                     }
+                    // Message 通知
+                    if ((firstRun && messageFirstRun) || messageSeconds.contains((int) timeLeft)) {
+                        Bukkit.getOnlinePlayers().forEach(player -> {
+                            message.getMessage(timeLeft).forEach(player::sendMessage);
+                        });
+                    }
+                    // Discord 通知
+                    if ((firstRun && discordFirstRun) || discordSeconds.contains((int) timeLeft)) {
+                        try {
+                            DiscordSRV.getPlugin().getMainTextChannel().sendMessage(message.getDiscordMessage(timeLeft)).queue();
+                        } catch (Exception ex) {
+                            plugin.getLogger().warning("無法發送 Discord 訊息：" + ex.getMessage());
+                        }
+                    }
+
+                    firstRun = false;
+
+                    if (timeLeft <= 0) {
+                        Bukkit.getOnlinePlayers().forEach(player -> player.kickPlayer(message.getKickMessage()));
+                        cancel();
+                        timeMax = -1;
+                        bossbarManager.hideBossbar();
+                        bossbarManager.removeBossbar();
+                        Bukkit.shutdown();
+                        return;
+                    }
+
+                    timeLeft--;
                 }
-
-                firstRun = false;
-
-                if (timeLeft <= 0) {
-                    Bukkit.getOnlinePlayers().forEach(player -> player.kickPlayer(message.getKickMessage()));
-                    cancel();
-                    Bukkit.shutdown();
-                    return;
-                }
-
-                timeLeft--;
             }
         };
 
@@ -104,6 +121,9 @@ public class Manager {
         if (timeLeft <= 0 || task == null) return false;
         task.cancel();
         timeLeft = -1;
+        timeMax = -1;
+        bossbarManager.hideBossbar();
+        bossbarManager.removeBossbar();
         Bukkit.getOnlinePlayers().forEach(player -> {
             message.getNotifyCancel().forEach(player::sendMessage);
         });

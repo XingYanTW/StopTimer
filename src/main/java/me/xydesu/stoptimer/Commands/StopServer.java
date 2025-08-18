@@ -36,7 +36,6 @@ public class StopServer implements CommandExecutor, TabCompleter {
 
         // Reload config
         if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
-            sender.sendMessage("DEBUG: Reload block entered");
             Main.getInstance().reloadConfig();
             messages.reload(Main.getInstance().getConfig());
             configManager.reload(Main.getInstance().getConfig());

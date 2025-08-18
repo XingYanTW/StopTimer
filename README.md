@@ -38,6 +38,7 @@
 ## PlaceholderAPI 支援
 
 - `%stoptimer_time%`：剩餘倒數時間（如 4分鐘 20秒）
+- `%stoptimer_time_raw%`：剩餘倒數時間（純秒數，數字格式）
 - `%stoptimer_message%`：自訂訊息格式剩餘時間
 
 ## DiscordSRV 支援

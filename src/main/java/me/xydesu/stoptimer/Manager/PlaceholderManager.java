@@ -45,6 +45,10 @@ public class PlaceholderManager extends PlaceholderExpansion {
             return (timeLeft > 0) ? formatTime(timeLeft+1) : "";
         }
 
+        if (identifier.equalsIgnoreCase("time_raw")) {
+            return (timeLeft > 0) ? String.valueOf(timeLeft + 1) : "";
+        }
+
         if (identifier.equalsIgnoreCase("message")) {
             return (timeLeft > 0)
                     ? message.getPlaceholder(timeLeft+1)

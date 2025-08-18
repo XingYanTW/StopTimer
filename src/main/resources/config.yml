@@ -21,6 +21,8 @@ messages:
   discord:
     message: "## :warning: 伺服器將在 %time% 後重啟"
     cancel: "## :warning: 伺服器重啟已取消"
+  bossbar:
+    message: "&4&l伺服器將在 &c&l%time% &4&l後重啟"
 NotifyTime:
   Title:
     FistRun: false

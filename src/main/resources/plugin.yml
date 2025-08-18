@@ -1,5 +1,5 @@
 name: StopTimer
-version: '1.2'
+version: ${project.version}
 main: me.xydesu.stoptimer.Main
 api-version: '1.21'
 authors: [xydesu]

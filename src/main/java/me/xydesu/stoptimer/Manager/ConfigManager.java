@@ -1,0 +1,46 @@
+package me.xydesu.stoptimer.Manager;
+
+import org.bukkit.configuration.file.FileConfiguration;
+
+import java.util.List;
+
+public class ConfigManager {
+
+    private FileConfiguration config;
+
+    public ConfigManager(FileConfiguration config) {
+        this.config = config;
+    }
+
+    public void reload(FileConfiguration newConfig) {
+        this.config = newConfig;
+    }
+
+    // NotifyTime.Title.FirstRun
+    public boolean getTitleFirstRun() {
+        return config.getBoolean("NotifyTime.Title.FistRun");
+    }
+    // NotifyTime.Title.Seconds
+    public List<Integer> getTitleSeconds() {
+        return config.getIntegerList("NotifyTime.Title.Seconds");
+    }
+
+    // NotifyTime.Message.FirstRun
+    public boolean getMessageFirstRun() {
+        return config.getBoolean("NotifyTime.Message.FistRun");
+    }
+    // NotifyTime.Message.Seconds
+    public List<Integer> getMessageSeconds() {
+        return config.getIntegerList("NotifyTime.Message.Seconds");
+    }
+
+    // NotifyTime.Discord.FirstRun
+    public boolean getDiscordFirstRun() {
+        return config.getBoolean("NotifyTime.Discord.FistRun");
+    }
+    // NotifyTime.Discord.Seconds
+    public List<Integer> getDiscordSeconds() {
+        return config.getIntegerList("NotifyTime.Discord.Seconds");
+    }
+
+}

@@ -15,11 +15,13 @@ public class Manager {
     private long timeMax= -1;
     private final MessageManager message;
     private BossbarManager bossbarManager;
+    private final ConfigManager config;
 
-    public Manager(Main plugin, MessageManager messageManager) {
+    public Manager(Main plugin, MessageManager messageManager, ConfigManager config) {
         this.plugin = plugin;
         this.message = messageManager;
         this.bossbarManager = new BossbarManager(plugin, this);
+        this.config = config;
     }
 
     public long getTimeLeft() {
@@ -49,12 +51,20 @@ public class Manager {
     public void startCountdown(long seconds) {
         timeMax = seconds;
         if (timeLeft > 0) {
-            // Countdown already running
+            // 倒數已在進行
             return;
         }
         bossbarManager.createBossbar();
 
         timeLeft = seconds;
+
+        // 取得 config 設定
+        boolean titleFirstRun = config.getTitleFirstRun();
+        boolean messageFirstRun = config.getMessageFirstRun();
+        boolean discordFirstRun = config.getDiscordFirstRun();
+        java.util.List<Integer> titleSeconds = config.getTitleSeconds();
+        java.util.List<Integer> messageSeconds = config.getMessageSeconds();
+        java.util.List<Integer> discordSeconds = config.getDiscordSeconds();
 
         task = new BukkitRunnable() {
             boolean firstRun = true;
@@ -64,24 +74,30 @@ public class Manager {
                 bossbarManager.updateBossbar();
                 bossbarManager.showBossbar();
                 if (timeLeft <= 5 || timeLeft == 10 || timeLeft == 60 || timeLeft == 300 || timeLeft == 1800 || timeLeft == 600 || firstRun) {
+
+                // Title 通知
+                if ((firstRun && titleFirstRun) || titleSeconds.contains((int) timeLeft)) {
                     Bukkit.getOnlinePlayers().forEach(player -> {
-                        if (firstRun || timeLeft == 1800 || timeLeft == 600) {
-                            message.getMessage(timeLeft).forEach(player::sendMessage);
-                        } else {
-                            player.sendTitle(message.getTitle(), message.getSubtitle(timeLeft), 10, 70, 20);
-                            message.getMessage(timeLeft).forEach(player::sendMessage);
-                            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-                        }
+                        player.sendTitle(message.getTitle(), message.getSubtitle(timeLeft), 10, 70, 20);
+                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
                     });
-                    if(timeLeft == 10 || timeLeft == 60 || timeLeft == 300 || timeLeft == 1800 || timeLeft == 600 || firstRun) {
-                        try {
-                            DiscordSRV.getPlugin().getMainTextChannel().sendMessage(message.getDiscordMessage(timeLeft)).queue();
-                        } catch (Exception ex) {
-                            plugin.getLogger().warning("無法發送 Discord 訊息：" + ex.getMessage());
-                        }
-                    }
-                    firstRun = false;
                 }
+                // Message 通知
+                if ((firstRun && messageFirstRun) || messageSeconds.contains((int) timeLeft)) {
+                    Bukkit.getOnlinePlayers().forEach(player -> {
+                        message.getMessage(timeLeft).forEach(player::sendMessage);
+                    });
+                }
+                // Discord 通知
+                if ((firstRun && discordFirstRun) || discordSeconds.contains((int) timeLeft)) {
+                    try {
+                        DiscordSRV.getPlugin().getMainTextChannel().sendMessage(message.getDiscordMessage(timeLeft)).queue();
+                    } catch (Exception ex) {
+                        plugin.getLogger().warning("無法發送 Discord 訊息：" + ex.getMessage());
+                    }
+                }
+
+                firstRun = false;
 
                 if (timeLeft <= 0) {
                     Bukkit.getOnlinePlayers().forEach(player -> player.kickPlayer(message.getKickMessage()));

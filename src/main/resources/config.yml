@@ -23,3 +23,36 @@ messages:
     cancel: "## :warning: 伺服器重啟已取消"
   bossbar:
     message: "&4&l伺服器將在 &c&l%time% &4&l後重啟"
+NotifyTime:
+  Title:
+    FistRun: false
+    Seconds:
+      - 300
+      - 60
+      - 10
+      - 5
+      - 4
+      - 3
+      - 2
+      - 1
+  Message:
+    FistRun: true
+    Seconds:
+      - 1800
+      - 600
+      - 300
+      - 60
+      - 10
+      - 5
+      - 4
+      - 3
+      - 2
+      - 1
+  Discord:
+    FistRun: true
+    Seconds:
+      - 1800
+      - 600
+      - 300
+      - 60
+      - 10

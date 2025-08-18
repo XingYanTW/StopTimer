@@ -13,10 +13,12 @@ public class Manager {
     private BukkitRunnable task;
     private long timeLeft = -1;
     private final MessageManager message;
+    private final ConfigManager config;
 
-    public Manager(Main plugin, MessageManager messageManager) {
+    public Manager(Main plugin, MessageManager messageManager, ConfigManager config) {
         this.plugin = plugin;
         this.message = messageManager;
+        this.config = config;
     }
 
     public long getTimeLeft() {

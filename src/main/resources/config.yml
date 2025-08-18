@@ -21,3 +21,36 @@ messages:
   discord:
     message: "## :warning: 伺服器將在 %time% 後重啟"
     cancel: "## :warning: 伺服器重啟已取消"
+NotifyTime:
+  Title:
+    FistRun: false
+    Seconds:
+      - 300
+      - 60
+      - 10
+      - 5
+      - 4
+      - 3
+      - 2
+      - 1
+  Message:
+    FistRun: true
+    Seconds:
+      - 1800
+      - 600
+      - 300
+      - 60
+      - 10
+      - 5
+      - 4
+      - 3
+      - 2
+      - 1
+  Discord:
+    FistRun: true
+    Seconds:
+      - 1800
+      - 600
+      - 300
+      - 60
+      - 10

@@ -1,5 +1,6 @@
 package me.xydesu.stoptimer.Commands;
 
+import me.xydesu.stoptimer.Manager.ConfigManager;
 import me.xydesu.stoptimer.Manager.Manager;
 import me.xydesu.stoptimer.Manager.MessageManager;
 import me.xydesu.stoptimer.Main;
@@ -17,10 +18,12 @@ public class StopServer implements CommandExecutor, TabCompleter {
 
     private final Manager manager;
     private final MessageManager messages;
+    private final ConfigManager configManager;
 
-    public StopServer(Manager manager, MessageManager messages) {
+    public StopServer(Manager manager, MessageManager messages, ConfigManager configManager) {
         this.manager = manager;
         this.messages = messages;
+        this.configManager = configManager;
     }
 
     @Override
@@ -36,6 +39,7 @@ public class StopServer implements CommandExecutor, TabCompleter {
             sender.sendMessage("DEBUG: Reload block entered");
             Main.getInstance().reloadConfig();
             messages.reload(Main.getInstance().getConfig());
+            configManager.reload(Main.getInstance().getConfig());
             sender.sendMessage(messages.getReload() != null ? messages.getReload() : "Reloaded, but no message found");
             return true;
         }

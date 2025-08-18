@@ -69,6 +69,11 @@ public class MessageManager {
         return color(config.getString("messages.discord.cancel"));
     }
 
+    public String getBossbarMessage(long time){
+        String t = formatTime(time);
+        return color(config.getString("messages.bossbar.message").replace("%time%", t));
+    }
+
 
 
     public List<String> getMessage(long time) {

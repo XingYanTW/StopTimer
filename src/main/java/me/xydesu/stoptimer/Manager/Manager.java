@@ -12,15 +12,22 @@ public class Manager {
     private final Plugin plugin;
     private BukkitRunnable task;
     private long timeLeft = -1;
+    private long timeMax= -1;
     private final MessageManager message;
+    private BossbarManager bossbarManager;
 
     public Manager(Main plugin, MessageManager messageManager) {
         this.plugin = plugin;
         this.message = messageManager;
+        this.bossbarManager = new BossbarManager(plugin, this);
     }
 
     public long getTimeLeft() {
         return timeLeft;
+    }
+
+    public long getTimeMax() {
+        return timeMax;
     }
 
     public long parseTime(String input) {
@@ -40,10 +47,12 @@ public class Manager {
     }
 
     public void startCountdown(long seconds) {
+        timeMax = seconds;
         if (timeLeft > 0) {
             // Countdown already running
             return;
         }
+        bossbarManager.createBossbar();
 
         timeLeft = seconds;
 
@@ -52,6 +61,8 @@ public class Manager {
 
             @Override
             public void run() {
+                bossbarManager.updateBossbar();
+                bossbarManager.showBossbar();
                 if (timeLeft <= 5 || timeLeft == 10 || timeLeft == 60 || timeLeft == 300 || timeLeft == 1800 || timeLeft == 600 || firstRun) {
                     Bukkit.getOnlinePlayers().forEach(player -> {
                         if (firstRun || timeLeft == 1800 || timeLeft == 600) {
@@ -75,6 +86,9 @@ public class Manager {
                 if (timeLeft <= 0) {
                     Bukkit.getOnlinePlayers().forEach(player -> player.kickPlayer(message.getKickMessage()));
                     cancel();
+                    timeMax= -1;
+                    bossbarManager.hideBossbar();
+                    bossbarManager.removeBossbar();
                     Bukkit.shutdown();
                     return;
                 }
@@ -90,6 +104,9 @@ public class Manager {
         if (timeLeft <= 0 || task == null) return false;
         task.cancel();
         timeLeft = -1;
+        timeMax = -1;
+        bossbarManager.hideBossbar();
+        bossbarManager.removeBossbar();
         Bukkit.getOnlinePlayers().forEach(player -> {
             message.getNotifyCancel().forEach(player::sendMessage);
         });

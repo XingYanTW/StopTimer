@@ -1,5 +1,6 @@
 package me.xydesu.stoptimer;
 
+import me.xydesu.stoptimer.Manager.BossbarManager;
 import me.xydesu.stoptimer.Manager.Manager;
 import me.xydesu.stoptimer.Manager.MessageManager;
 import me.xydesu.stoptimer.Manager.PlaceholderManager;
@@ -13,6 +14,7 @@ public final class Main extends JavaPlugin {
     private static Main instance;
     private Manager manager;
     private MessageManager messageManager;
+    private BossbarManager bossbarManager;
 
     @Override
     public void onEnable() {
@@ -24,6 +26,7 @@ public final class Main extends JavaPlugin {
 
         messageManager = new MessageManager(getConfig());
         manager = new Manager(this, messageManager);
+        bossbarManager = new BossbarManager(this, manager);
         StopServer stopServerCommand = new StopServer(manager, messageManager);
 
         // Register commands

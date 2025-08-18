@@ -54,7 +54,9 @@ public class Manager {
             // 倒數已在進行
             return;
         }
-        bossbarManager.createBossbar();
+        if(config.getBossbarEnabled()) {
+            bossbarManager.createBossbar();
+        }
 
         timeLeft = seconds;
 
@@ -71,8 +73,10 @@ public class Manager {
 
             @Override
             public void run() {
-                bossbarManager.updateBossbar();
-                bossbarManager.showBossbar();
+                if(config.getBossbarEnabled()){
+                    bossbarManager.updateBossbar();
+                    bossbarManager.showBossbar();
+                }
                 if (timeLeft <= 5 || timeLeft == 10 || timeLeft == 60 || timeLeft == 300 || timeLeft == 1800 || timeLeft == 600 || firstRun) {
 
                     // Title 通知
@@ -103,14 +107,15 @@ public class Manager {
                         Bukkit.getOnlinePlayers().forEach(player -> player.kickPlayer(message.getKickMessage()));
                         cancel();
                         timeMax = -1;
-                        bossbarManager.hideBossbar();
-                        bossbarManager.removeBossbar();
+                        if(config.getBossbarEnabled()) {
+                            bossbarManager.hideBossbar();
+                            bossbarManager.removeBossbar();
+                        }
                         Bukkit.shutdown();
                         return;
                     }
-
-                    timeLeft--;
                 }
+                timeLeft--;
             }
         };
 
@@ -122,8 +127,10 @@ public class Manager {
         task.cancel();
         timeLeft = -1;
         timeMax = -1;
-        bossbarManager.hideBossbar();
-        bossbarManager.removeBossbar();
+        if (config.getBossbarEnabled()) {
+            bossbarManager.updateBossbar();
+            bossbarManager.showBossbar();
+        }
         Bukkit.getOnlinePlayers().forEach(player -> {
             message.getNotifyCancel().forEach(player::sendMessage);
         });

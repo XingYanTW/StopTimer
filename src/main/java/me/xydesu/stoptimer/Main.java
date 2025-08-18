@@ -15,7 +15,6 @@ public final class Main extends JavaPlugin {
     private static Main instance;
     private Manager manager;
     private MessageManager messageManager;
-    private BossbarManager bossbarManager;
     private ConfigManager configManager;
 
     @Override
@@ -27,7 +26,7 @@ public final class Main extends JavaPlugin {
         instance = this;
 
         messageManager = new MessageManager(getConfig());
-        bossbarManager = new BossbarManager(this, manager);
+        new BossbarManager(this, manager);
         configManager = new ConfigManager(getConfig());
         manager = new Manager(this, messageManager, configManager);
         StopServer stopServerCommand = new StopServer(manager, messageManager, configManager);

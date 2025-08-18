@@ -18,7 +18,7 @@ public class ConfigManager {
 
     // NotifyTime.Title.FirstRun
     public boolean getTitleFirstRun() {
-        return config.getBoolean("NotifyTime.Title.FistRun");
+        return config.getBoolean("NotifyTime.Title.FirstRun");
     }
     // NotifyTime.Title.Seconds
     public List<Integer> getTitleSeconds() {
@@ -27,7 +27,7 @@ public class ConfigManager {
 
     // NotifyTime.Message.FirstRun
     public boolean getMessageFirstRun() {
-        return config.getBoolean("NotifyTime.Message.FistRun");
+        return config.getBoolean("NotifyTime.Message.FirstRun");
     }
     // NotifyTime.Message.Seconds
     public List<Integer> getMessageSeconds() {
@@ -36,11 +36,15 @@ public class ConfigManager {
 
     // NotifyTime.Discord.FirstRun
     public boolean getDiscordFirstRun() {
-        return config.getBoolean("NotifyTime.Discord.FistRun");
+        return config.getBoolean("NotifyTime.Discord.FirstRun");
     }
     // NotifyTime.Discord.Seconds
     public List<Integer> getDiscordSeconds() {
         return config.getIntegerList("NotifyTime.Discord.Seconds");
+    }
+
+    public boolean getBossbarEnabled() {
+        return config.getBoolean("BossBar");
     }
 
 }

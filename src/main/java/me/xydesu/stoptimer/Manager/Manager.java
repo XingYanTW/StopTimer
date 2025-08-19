@@ -23,7 +23,7 @@ public class Manager {
     public Manager(Main plugin, MessageManager messageManager, ConfigManager config) {
         this.plugin = plugin;
         this.message = messageManager;
-        this.bossbarManager = new BossbarManager(plugin, this);
+        this.bossbarManager = new BossbarManager(plugin, this, config);
         this.config = config;
     }
 
@@ -130,11 +130,13 @@ public class Manager {
                             notifyMsg.forEach(line -> plugin.getLogger().info("[StopTimer] " + colorToAnsi(line)));
                         }
                         // Discord 通知
-                        if ((firstRun && discordFirstRun) || discordSeconds.contains((int) timeLeft)) {
-                            try {
-                                DiscordSRV.getPlugin().getMainTextChannel().sendMessage(message.getDiscordMessage(timeLeft)).queue();
-                            } catch (Exception ex) {
-                                plugin.getLogger().warning("無法發送 Discord 訊息：" + ex.getMessage());
+                        if (config.getDiscordEnabled()){
+                            if ((firstRun && discordFirstRun) || discordSeconds.contains((int) timeLeft)) {
+                                try {
+                                    DiscordSRV.getPlugin().getMainTextChannel().sendMessage(message.getDiscordMessage(timeLeft)).queue();
+                                } catch (Exception ex) {
+                                    plugin.getLogger().warning("無法發送 Discord 訊息：" + ex.getMessage());
+                                }
                             }
                         }
                     }
@@ -171,9 +173,12 @@ public class Manager {
         Bukkit.getOnlinePlayers().forEach(player -> {
             message.getNotifyCancel().forEach(player::sendMessage);
         });
-        try {
-            DiscordSRV.getPlugin().getMainTextChannel().sendMessage(message.getDiscordCancel()).queue();
-        } catch (Exception ignored) {}
+        if( config.getDiscordEnabled()) {
+            try {
+                DiscordSRV.getPlugin().getMainTextChannel().sendMessage(message.getDiscordCancel()).queue();
+            } catch (Exception ignored) {
+            }
+        }
         return true;
     }
 

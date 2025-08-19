@@ -24,7 +24,7 @@ public final class Main extends JavaPlugin {
         messageManager = new MessageManager(getConfig());
         configManager = new ConfigManager(getConfig());
         manager = new Manager(this, messageManager, configManager);
-        bossbarManager = new BossbarManager(this, manager);
+        bossbarManager = new BossbarManager(this, manager, configManager);
 
         StopServer stopServerCommand = new StopServer(manager, messageManager, configManager);
         getCommand("stopserver").setExecutor(stopServerCommand);

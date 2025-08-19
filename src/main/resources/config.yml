@@ -49,7 +49,7 @@ Messages:
     Cancel: "## :warning: 伺服器重啟已取消"
 
 NotifyTime:
-  Title:
+  Title: # (含音效)
     # 是否一開始就發送 Title 通知
     FirstRun: false
     # 幾秒時發送 Title 通知

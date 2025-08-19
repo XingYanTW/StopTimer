@@ -156,7 +156,7 @@ public class Manager {
             }
         };
 
-        task.runTaskTimer(plugin, 0, 20);
+        task.runTaskTimer(plugin, 0, 1);
     }
 
     public boolean cancelCountdown() {

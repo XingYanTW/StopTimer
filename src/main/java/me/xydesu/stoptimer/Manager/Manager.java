@@ -11,8 +11,8 @@ public class Manager {
 
     private final Plugin plugin;
     private BukkitRunnable task;
-    private long timeLeft = -1;
-    private long timeMax= -1;
+    private long endTimeMillis = -1;
+    private long durationSeconds = -1;
     private final MessageManager message;
     private BossbarManager bossbarManager;
     private final ConfigManager config;
@@ -25,18 +25,19 @@ public class Manager {
     }
 
     public long getTimeLeft() {
-        return timeLeft;
+        if (endTimeMillis < 0) return -1;
+        long left = (endTimeMillis - System.currentTimeMillis()) / 1000;
+        return Math.max(0, left);
     }
 
     public long getTimeMax() {
-        return timeMax;
+        return durationSeconds;
     }
 
     public long parseTime(String input) {
         try {
             char unit = input.charAt(input.length() - 1);
             long value = Long.parseLong(input.substring(0, input.length() - 1));
-
             switch (unit) {
                 case 's': return value;
                 case 'm': return value * 60;
@@ -49,16 +50,16 @@ public class Manager {
     }
 
     public void startCountdown(long seconds) {
-        timeMax = seconds;
-        if (timeLeft > 0) {
+        if (getTimeLeft() > 0) {
             // 倒數已在進行
             return;
         }
+        durationSeconds = seconds;
+        endTimeMillis = System.currentTimeMillis() + seconds * 1000;
+
         if(config.getBossbarEnabled()) {
             bossbarManager.createBossbar();
         }
-
-        timeLeft = seconds;
 
         // 取得 config 設定
         boolean titleFirstRun = config.getTitleFirstRun();
@@ -73,12 +74,13 @@ public class Manager {
 
             @Override
             public void run() {
+                long timeLeft = getTimeLeft();
+
                 if(config.getBossbarEnabled()){
                     bossbarManager.updateBossbar();
                     bossbarManager.showBossbar();
                 }
                 if (timeLeft <= 5 || timeLeft == 10 || timeLeft == 60 || timeLeft == 300 || timeLeft == 1800 || timeLeft == 600 || firstRun) {
-
                     // Title 通知
                     if ((firstRun && titleFirstRun) || titleSeconds.contains((int) timeLeft)) {
                         Bukkit.getOnlinePlayers().forEach(player -> {
@@ -100,22 +102,19 @@ public class Manager {
                             plugin.getLogger().warning("無法發送 Discord 訊息：" + ex.getMessage());
                         }
                     }
-
                     firstRun = false;
-
-                    if (timeLeft <= 0) {
-                        Bukkit.getOnlinePlayers().forEach(player -> player.kickPlayer(message.getKickMessage()));
-                        cancel();
-                        timeMax = -1;
-                        if(config.getBossbarEnabled()) {
-                            bossbarManager.hideBossbar();
-                            bossbarManager.removeBossbar();
-                        }
-                        Bukkit.shutdown();
-                        return;
-                    }
                 }
-                timeLeft--;
+                if (timeLeft <= 0) {
+                    if(config.getBossbarEnabled()) {
+                        bossbarManager.hideBossbar();
+                        bossbarManager.removeBossbar();
+                    }
+                    Bukkit.getOnlinePlayers().forEach(player -> player.kickPlayer(message.getKickMessage()));
+                    cancel();
+                    durationSeconds = -1;
+                    endTimeMillis = -1;
+                    Bukkit.shutdown();
+                }
             }
         };
 
@@ -123,19 +122,20 @@ public class Manager {
     }
 
     public boolean cancelCountdown() {
-        if (timeLeft <= 0 || task == null) return false;
+        if (getTimeLeft() <= 0 || task == null) return false;
         task.cancel();
-        timeLeft = -1;
-        timeMax = -1;
         if (config.getBossbarEnabled()) {
             bossbarManager.updateBossbar();
             bossbarManager.showBossbar();
         }
+        durationSeconds = -1;
+        endTimeMillis = -1;
         Bukkit.getOnlinePlayers().forEach(player -> {
             message.getNotifyCancel().forEach(player::sendMessage);
         });
-        DiscordSRV.getPlugin().getMainTextChannel().sendMessage(message.getDiscordCancel()).queue();
-
+        try {
+            DiscordSRV.getPlugin().getMainTextChannel().sendMessage(message.getDiscordCancel()).queue();
+        } catch (Exception ignored) {}
         return true;
     }
 

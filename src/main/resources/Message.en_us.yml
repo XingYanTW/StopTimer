@@ -1,0 +1,38 @@
+Messages:
+  Command:
+    # Command usage instructions
+    Usage: "&cUsage: /stopserver <time> or /stopserver cancel"
+    # Message shown when lacking permission
+    NoPermission: "&cYou do not have permission to use this command."
+    # Error for incorrect time format
+    ErrorFormat: "&cUnknown time format! Use: s, m, h."
+    # Countdown canceled
+    Canceled: "&aCountdown canceled."
+    # Cancel failed when no countdown is running
+    CancelFail: "&cNo countdown is currently running."
+    # Configuration reloaded
+    Reload: "&aStopTimer configuration reloaded!"
+  Notify:
+    # Title notification
+    Title: "&c&lRestart Notification"
+    # Subtitle notification, %time% will be replaced with time
+    Subtitle: "&4Server will restart in &c%time% &4"
+    Message:
+      - "&c&lRestart Notification"
+      - "&4Server will restart in &c%time% &4"
+    # Kick message
+    Kick: "&cServer is restarting, please try again later"
+    Cancel:
+      - "&c&lRestart Notification"
+      - "&4Server restart has been canceled"
+  Bossbar:
+    # Bossbar display content
+    Message: "&4&lServer will restart in &c&l%time% &4&l"
+  Placeholder:
+    # PlaceholderAPI message
+    Message: "&4&lServer will restart in &c&l%time% &4&l"
+  Discord:
+    # Discord notification
+    Message: "## :warning: Server will restart in %time%"
+    # Discord cancel notification
+    Cancel: "## :warning: Server restart has been canceled"

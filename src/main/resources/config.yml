@@ -1,58 +1,20 @@
-# StopTimer 插件設定檔
+# StopTimer plugin configuration file
 
+Language: "en_us" # Language setting
 
 Bossbar:
-  # 是否啟用BOSSBAR功能
+  # Enable BOSSBAR feature
   Enable: true
-  # Bossbar顏色
+  # Bossbar color
   Color: "RED"
-  # Bossbar樣式
+  # Bossbar style
   Style: "SOLID"
 
-Messages:
-  Command:
-    # 指令使用說明
-    Usage: "&c使用方式: /stopserver <時間> or /stopserver cancel"
-    # 沒有權限時顯示
-    NoPermission: "&c你沒有權限使用這個指令."
-    # 錯誤時間格式
-    ErrorFormat: "&c未知的時間格式! 使用：s,m,h."
-    # 倒數已取消
-    Canceled: "&a倒數已取消."
-    # 沒有倒數時取消
-    CancelFail: "&c沒有正在運行的倒數計時."
-    # 設定重新載入
-    Reload: "&aStopTimer 設定已重新載入!"
-  Notify:
-    # 標題通知
-    Title: "&c&l重啟通知"
-    # 子標題通知，%time% 會被替換成時間
-    Subtitle: "&4伺服器將在 &c%time% &4後重啟"
-    Message:
-      - "&c&l重啟通知"
-      - "&4伺服器將在 &c%time% &4後重啟"
-    # 斷線訊息
-    Kick: "&c伺服器正在重啟，請稍後再試"
-    Cancel:
-      - "&c&l重啟通知"
-      - "&4伺服器重啟已取消"
-  Bossbar:
-    # Bossbar顯示內容
-    Message: "&4&l伺服器將在 &c&l%time% &4&l後重啟"
-  Placeholder:
-    # PlaceholderAPI 提示訊息
-    Message: "&4&l伺服器將在 &c&l%time% &4&l後重啟"
-  Discord:
-    # Discord通知
-    Message: "## :warning: 伺服器將在 %time% 後重啟"
-    # Discord取消通知
-    Cancel: "## :warning: 伺服器重啟已取消"
-
 NotifyTime:
-  Title: # (含音效)
-    # 是否一開始就發送 Title 通知
+  Title: # (with sound effect)
+    # Whether to send Title notification at the beginning
     FirstRun: false
-    # 幾秒時發送 Title 通知
+    # Seconds to send Title notification
     Seconds:
       - 300
       - 60
@@ -63,9 +25,9 @@ NotifyTime:
       - 2
       - 1
   Message:
-    # 是否一開始就發送聊天訊息
+    # Whether to send chat message at the beginning
     FirstRun: true
-    # 幾秒時發送聊天訊息
+    # Seconds to send chat message
     Seconds:
       - 1800
       - 600
@@ -78,11 +40,11 @@ NotifyTime:
       - 2
       - 1
   Discord:
-    # 是否開啟 Discord 通知
+    # Enable Discord notification
     Enable: true
-    # 是否一開始就發送 Discord 通知
+    # Whether to send Discord notification at the beginning
     FirstRun: true
-    # 幾秒時發送 Discord 通知
+    # Seconds to send Discord notification
     Seconds:
       - 1800
       - 600

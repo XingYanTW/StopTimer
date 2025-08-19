@@ -163,8 +163,8 @@ public class Manager {
         if (getTimeLeft() <= 0 || task == null) return false;
         task.cancel();
         if (config.getBossbarEnabled()) {
-            bossbarManager.updateBossbar();
-            bossbarManager.showBossbar();
+            bossbarManager.hideBossbar();
+            bossbarManager.removeBossbar();
         }
         durationSeconds = -1;
         endTimeMillis = -1;

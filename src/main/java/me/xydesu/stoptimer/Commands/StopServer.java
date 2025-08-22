@@ -36,10 +36,10 @@ public class StopServer implements CommandExecutor, TabCompleter {
 
         // Reload config
         if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
-            Main.getInstance().reloadConfig();
-            messages.reload(Main.getInstance().getConfig());
-            configManager.reload(Main.getInstance().getConfig());
-            sender.sendMessage(messages.getReload() != null ? messages.getReload() : "Reloaded, but no message found");
+            Main.getInstance().reloadConfigAndLanguage();
+            // 重新取得最新的 MessageManager
+            MessageManager newMessages = Main.getInstance().getMessageManager();
+            sender.sendMessage(newMessages.getReload() != null ? newMessages.getReload() : "Reloaded, but no message found");
             return true;
         }
 

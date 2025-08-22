@@ -2,20 +2,38 @@ package me.xydesu.stoptimer.Manager;
 
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
+
+import java.io.File;
 import java.util.List;
 import static me.xydesu.stoptimer.Utils.TimeUtil.formatTime;
 
 public class MessageManager {
 
     private FileConfiguration config;
+    private final Plugin plugin;
+    private String language;
 
-    public MessageManager(FileConfiguration config) {
-        this.config = config;
+    public MessageManager(Plugin plugin, String language) {
+        this.plugin = plugin;
+        this.language = language;
+        loadConfig();
     }
 
-    public void reload(FileConfiguration newConfig) {
-        this.config = newConfig;
+    public void reload(String language) {
+        this.language = language;
+        loadConfig();
     }
+
+    private void loadConfig() {
+        File file = new File(plugin.getDataFolder(), "Message." + language + ".yml");
+        if (!file.exists()) {
+            plugin.saveResource("Message." + language + ".yml", false);
+        }
+        this.config = YamlConfiguration.loadConfiguration(file);
+    }
+
 
     // Command messages
     public String getReload() {

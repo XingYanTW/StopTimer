@@ -12,9 +12,9 @@ public class PlaceholderManager extends PlaceholderExpansion {
     private final Manager manager;
     private final MessageManager message;
 
-    public PlaceholderManager(Plugin plugin, Manager manager) {
+    public PlaceholderManager(Plugin plugin, Manager manager, ConfigManager config) {
         this.manager = manager;
-        this.message = new MessageManager(plugin.getConfig());
+        this.message = new MessageManager(plugin, config.getLanguage());
     }
 
     @Override

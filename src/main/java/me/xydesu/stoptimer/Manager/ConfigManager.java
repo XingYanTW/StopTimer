@@ -15,6 +15,10 @@ public class ConfigManager {
         this.config = newConfig;
     }
 
+    public String getLanguage(){
+        return config.getString("Language");
+    }
+
     // Bossbar.Enable
     public boolean getBossbarEnabled() {
         return config.getBoolean("Bossbar.Enable");
